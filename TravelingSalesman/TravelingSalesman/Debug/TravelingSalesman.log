@@ -1,0 +1,10 @@
+﻿  array.cpp
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\array.cpp(7): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  Compiling...
+  window.cpp
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+  Generating Code...
+  TravelingSalesman.vcxproj -> C:\Users\greel\Desktop\GitHub\Traveling_Salesman\TravelingSalesman\Debug\TravelingSalesman.exe
+  TravelingSalesman.vcxproj -> C:\Users\greel\Desktop\GitHub\Traveling_Salesman\TravelingSalesman\Debug\TravelingSalesman.pdb (Full PDB)
