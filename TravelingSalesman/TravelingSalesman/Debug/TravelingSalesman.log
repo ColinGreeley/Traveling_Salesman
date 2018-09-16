@@ -1,10 +1,10 @@
-﻿  array.cpp
-c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\array.cpp(7): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Generating Code...
-  Compiling...
-  window.cpp
-c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  main.cpp
-  Generating Code...
+﻿  window.cpp
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(8): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(9): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(10): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(11): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(59): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(69): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   TravelingSalesman.vcxproj -> C:\Users\greel\Desktop\GitHub\Traveling_Salesman\TravelingSalesman\Debug\TravelingSalesman.exe
   TravelingSalesman.vcxproj -> C:\Users\greel\Desktop\GitHub\Traveling_Salesman\TravelingSalesman\Debug\TravelingSalesman.pdb (Full PDB)

@@ -1,7 +1,8 @@
 #include "array.h"
 #include <stdlib.h>
 #include <iostream>
-#include <stdio.h>
+#include <random>
+#include <math.h>
 
 void Array::generatePopulation() {
 
@@ -13,10 +14,14 @@ void Array::generatePopulation() {
 	for (int i = 0; i < POPULATION_SIZE; i++) {
 		for (int j = 0; j < CITY_COUNT; j++) {
 
-			randomX = rand() % 800 + 100;
-			randomY = rand() % 800 + 200;
-
-			cityList[i][j] = sf::Vector2i(randomX, randomY);
+			if (i == 0) {
+				randomX = rand() % 800 + 100;
+				randomY = rand() % 800 + 200;
+				cityList[i][j] = sf::Vector2i(randomX, randomY);
+			}
+			else {
+				cityList[i][j] = cityList[0][j];
+			}
 		}
 	}
 }
@@ -26,7 +31,7 @@ void Array::printCityLocations() {
 	for (int i = 0; i < POPULATION_SIZE; i++) {
 		for (int j = 0; j < CITY_COUNT; j++) {
 
-			std::cout << cityList[i][j].x << ", " << cityList[i][j].y << " ";
+			std::cout << cityList[i][j].x << "," << cityList[i][j].y << " ";
 		}
 		std::cout << "\n";
 	}
@@ -35,60 +40,133 @@ void Array::printCityLocations() {
 
 void Array::shufflePopulation() {
 
+	sf::Vector2i t1, t2;
+	int r;
+
+	for (int shuffleCount = 3; shuffleCount > 0; shuffleCount--) {
+		for (int k = 0; k < POPULATION_SIZE; k++) {
+			r = rand() % CITY_COUNT;
+			for (int m = 0; m < CITY_COUNT; m++) {
+				t1 = cityList[k][m];
+				t2 = cityList[k][r];
+				cityList[k][r] = t1;
+				cityList[k][m] = t2;
+
+			}
+		}
+	}
+}
+
+void Array::calculatePathMagnitudes(float pathMag[]) {
+
+
 	for (int i = 0; i < POPULATION_SIZE; i++) {
-		shuffleCities(i);
+		pathMag[i] = sqrt(pow(cityList[i][0].x - cityList[i][CITY_COUNT - 1].x, 2) + pow(cityList[i][0].y - cityList[i][CITY_COUNT - 1].y, 2));
+	}
+	for (int i = 0; i < POPULATION_SIZE; i++) {
+		for (int j = 0; j < CITY_COUNT - 1; j++) {
+			pathMag[i] += sqrt(pow(cityList[i][j + 1].x - cityList[i][j].x, 2) + pow(cityList[i][j + 1].y - cityList[i][j].y, 2));
+		}
 	}
 }
 
-void Array::shuffleCities(int rowNumber) {
+void Array::getBestPathIndex() {
 
+	float pathSum[POPULATION_SIZE];
+	calculatePathMagnitudes(pathSum);
+
+	for (int i = 0; i < POPULATION_SIZE; i++) {
+		if (pathSum[i] < bestPathMag) {
+			bestPathIndex = i;
+			bestPathMag = pathSum[i];
+		}
+	}
+}
+
+void Array::selection(float selectionRate) {
+
+	int sRate = (int)(selectionRate * pow(10, 4));
 	int random;
-	int randomValues[CITY_COUNT];
 
-	for (int i = 0; i < CITY_COUNT; i++) {
-		random = rand() % 1000000000 + 1;
-		randomValues[i] = random;
+	for (int i = 0; i < POPULATION_SIZE; i++) {
+		random = rand() % 10000 + 1;
+		if (random < sRate) {
+			for (int j = 0; j < CITY_COUNT; j++) {
+				cityList[i][j] = cityList[bestPathIndex][j];
+			}
+		}
 	}
-	mergeSort(randomValues, CITY_COUNT);
 }
 
-void Array::merger(int arr[], int lo, int  mi, int hi) {
+void Array::crossover(float crossoverRate) {
 
-    int *temp = new int[hi - lo + 1];//temporary merger array
-    int i = lo, j = mi + 1;//i is for left-hand,j is for right-hand
-    int k = 0;//k is for the temporary array
+	int start, end, index;
+	int cRate = (int)(crossoverRate * pow(10, 4));
+	float random;
 
-    while(i <= mi && j <= hi) {
-        if(arr[i] <= arr[j])
-            temp[k++] = arr[i++];
-        else
-            temp[k++] = arr[j++];
-    }
-    //rest elements of left-half
-    while(i <= mi)
-        temp[k++] = arr[i++];
-    //rest elements of right-half
-    while(j <= hi)
-        temp[k++] = arr[j++];
-    //copy the mergered temporary array to the original array
-    for(k = 0, i = lo; i <= hi; ++i, ++k)
-        arr[i] = temp[k];
- 
-    delete []temp;
+	for (int i = 0; i < POPULATION_SIZE; i++) {
+		random = rand() % 10000 + 1;
+		if (random < cRate) {
+			start = rand() % (CITY_COUNT-1) + 1;
+			end = rand() % (CITY_COUNT-start) + (start + 1);
+			index = rand() % (POPULATION_SIZE-1) + 1;
+			if (i != index && i != bestPathIndex) {
+				for (int j = 0; j < CITY_COUNT; j++) {
+					if (j < (end - start)) {
+						cityList[i][j] = cityList[index][j + start];
+					}
+					else if ((j > (end - start) - 1) && (j < start + (end - start))) {
+						cityList[i][j] = cityList[index][j - (end - start)];
+					}
+					else {
+						cityList[i][j] = cityList[index][j];
+					}
+				}
+			}
+		}
+	}
 }
 
-void Array::mergeSortHelper(int arr[], int lo, int hi) {
+void Array::mutation(float mutationRate) {
 
-    int mid;
-    if (lo < hi) {
-        mid = (lo + hi) >> 1;
-        mergeSortHelper(arr, lo, mid);
-        mergeSortHelper(arr, mid+1, hi);
-        merger(arr, lo, mid, hi);
-    }
+	int random, index1, index2;
+	int mRate = (int)(mutationRate * pow(10, 4));
+	sf::Vector2i temp;
+
+	for (int i = 0; i < POPULATION_SIZE; i++) {
+		random = rand() % 10000 + 1;
+		index1 = rand() % (CITY_COUNT - 1);
+		index2 = rand() % (CITY_COUNT - 1);
+		if (random < mRate && i != bestPathIndex) {
+			temp = cityList[i][index1];
+			cityList[i][index1] = cityList[i][index2];
+			cityList[i][index2] = temp;
+		}
+	}
 }
 
-void Array::mergeSort(int arr[], int arr_size) {
+void Array::flip(float flipRate) {
 
-    mergeSortHelper(arr, 0, arr_size-1);
+	int start, end, random;
+	int fRate = (int)(flipRate * pow(10, 4));
+	sf::Vector2i temp;
+
+	for (int i = 0; i < POPULATION_SIZE; i++) {
+		if (i != bestPathIndex) {
+			random = rand() % 10000 + 1;
+			if (random < fRate) {
+				start = rand() % CITY_COUNT;
+				end = rand() % (CITY_COUNT - start) + (start);
+				for (int j = 0; j < (end - start) / 2; j++) {
+					if (start < end) {
+						temp = cityList[i][start];
+						cityList[i][start] = cityList[i][end];
+						cityList[i][end] = temp;
+						start++;
+						end--;
+					}
+				}
+			}
+		}
+	}
 }

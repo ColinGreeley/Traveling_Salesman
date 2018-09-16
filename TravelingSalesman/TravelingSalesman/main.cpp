@@ -7,7 +7,6 @@
 //
 /////////////////////////////////////////////
 #include "window.h"
-#include <iostream>
 
 
 int main(void) {
