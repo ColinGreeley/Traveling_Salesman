@@ -15,8 +15,8 @@ void Array::generatePopulation() {
 		for (int j = 0; j < CITY_COUNT; j++) {
 
 			if (i == 0) {
-				randomX = rand() % 800 + 100;
-				randomY = rand() % 800 + 200;
+				randomX = rand() % 1700 + 100;
+				randomY = rand() % 800 + 100;
 				cityList[i][j] = sf::Vector2i(randomX, randomY);
 			}
 			else {

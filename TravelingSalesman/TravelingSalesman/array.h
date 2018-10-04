@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML\Audio.hpp>
 
-#define CITY_COUNT 30
+#define CITY_COUNT 40
 #define POPULATION_SIZE 1000
 
 class Array {

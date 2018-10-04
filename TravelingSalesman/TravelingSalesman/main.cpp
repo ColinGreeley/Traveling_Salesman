@@ -8,7 +8,6 @@
 /////////////////////////////////////////////
 #include "window.h"
 
-
 int main(void) {
 
 	renderWindow();
