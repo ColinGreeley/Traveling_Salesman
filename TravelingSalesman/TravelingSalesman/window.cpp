@@ -2,23 +2,24 @@
 #include <iostream>
 #include <vector>
 
-#define HEAP_SIZE 8
+#define MERGE_SIZE 1024  // values of 2^n
+#define ELIMINATION_THRESHOLD 3
 
 void renderWindow() {
 
-	Array population;
 	int generation = 0;
-	float selectionRate = 0.1;
+	float selectionRate = 0.3;
 	float crossoverRate = 0.5;
 	float mutationRate = 0.2;
 	float flipRate = 0.2;
 
-	std::vector<Array> heapSortList;
-	for (int i = 0; i < HEAP_SIZE; i++) {
-		Array *n = new Array;
-		(*n).generatePopulation();
-		(*n).shufflePopulation();
-		heapSortList.push_back(*n);
+	bool eliminate = true;
+	std::vector<Array> mergeSortList;
+	for (int i = 0; i < MERGE_SIZE; i++) {
+		Array n;
+		n.generatePopulation();
+		n.shufflePopulation();
+		mergeSortList.push_back(n);
 	}
 
 	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Traveling salesman", sf::Style::Fullscreen);
@@ -26,9 +27,6 @@ void renderWindow() {
 	sf::VertexArray lines(sf::LinesStrip, CITY_COUNT + 1);
 	city.setRadius(4);
 	city.setFillColor(sf::Color::Cyan);
-	
-	population.generatePopulation();
-	population.shufflePopulation();
 
 	while (window.isOpen()) {
 
@@ -48,19 +46,21 @@ void renderWindow() {
 		}
 		window.clear(sf::Color::Color(50, 50, 50));
 
-		for (int i = 0; i < heapSortList.size(); i++) {
-			heapSortList[i].getBestPathIndex();
-			heapSortList[i].selection(selectionRate);
-			heapSortList[i].crossover(crossoverRate);
-			heapSortList[i].mutation(mutationRate);
-			heapSortList[i].flip(flipRate);
-			drawBestPath(heapSortList[i].cityList, lines, heapSortList[i].bestPathIndex, window);
+		for (int i = 0; i < mergeSortList.size(); i++) {
+			mergeSortList[i].getBestPathIndex();
+			mergeSortList[i].selection(selectionRate);
+			mergeSortList[i].crossover(crossoverRate);
+			mergeSortList[i].mutation(mutationRate);
+			mergeSortList[i].flip(flipRate);
+			mergeSortList[i].checkConsecutiveEntries();
+			drawBestPath(mergeSortList[i].cityList, lines, mergeSortList[i].bestPathIndex, window);
 		}
-		displayCities(heapSortList[0].cityList, city, window);
+		displayCities(mergeSortList[0].cityList, city, window);
 		window.display();
 
-		if (generation % 50 == 0) 
-			eliminate(heapSortList);
+		checkConsecutiveValues(mergeSortList, eliminate);
+		//if (generation % 50 == 0) 
+			//eliminate(mergeSortList);
 		
 		generation++;
 		std::cout << generation << std::endl;
@@ -68,7 +68,7 @@ void renderWindow() {
 	}
 }
 
-void displayCities(sf::Vector2i cities[][CITY_COUNT], sf::CircleShape tempShape, sf::RenderWindow& window) {
+void displayCities(sf::Vector2i **&cities, sf::CircleShape tempShape, sf::RenderWindow& window) {
 
 	for (int i = 0; i < CITY_COUNT; i++) {
 		tempShape.setPosition(cities[0][i].x - 4, cities[0][i].y - 4);
@@ -76,7 +76,7 @@ void displayCities(sf::Vector2i cities[][CITY_COUNT], sf::CircleShape tempShape,
 	}
 }
 
-void drawBestPath(sf::Vector2i cities[][CITY_COUNT], sf::VertexArray lines, int index,  sf::RenderWindow& window) {
+void drawBestPath(sf::Vector2i **&cities, sf::VertexArray lines, int index,  sf::RenderWindow& window) {
 
 	int count = 0;
 
@@ -99,5 +99,21 @@ void eliminate(std::vector<Array> &n) {
 				n.erase(n.begin() + i);
 			}
 		}
+	}
+}
+
+void checkConsecutiveValues(std::vector<Array> &n, bool b) {
+
+	b = true;
+
+	for (int i = 0; i < n.size(); i++) {
+		if (n[i].v.count < ELIMINATION_THRESHOLD && b == true)
+			b = false;
+	}
+
+	if (b == true) {
+		for (int i = 0; i < n.size(); i++)
+			n[i].v.count = 0;
+		eliminate(n);
 	}
 }

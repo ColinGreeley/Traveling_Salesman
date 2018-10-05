@@ -2,10 +2,12 @@
 c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(11): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(13): warning C4305: 'initializing': truncation from 'double' to 'float'
 c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(14): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(51): warning C4018: '<': signed/unsigned mismatch
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(49): warning C4018: '<': signed/unsigned mismatch
 c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(74): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(84): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(87): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(94): warning C4018: '<': signed/unsigned mismatch
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(109): warning C4018: '<': signed/unsigned mismatch
+c:\users\greel\desktop\github\traveling_salesman\travelingsalesman\travelingsalesman\window.cpp(115): warning C4018: '<': signed/unsigned mismatch
   TravelingSalesman.vcxproj -> C:\Users\greel\Desktop\GitHub\Traveling_Salesman\TravelingSalesman\Debug\TravelingSalesman.exe
   TravelingSalesman.vcxproj -> C:\Users\greel\Desktop\GitHub\Traveling_Salesman\TravelingSalesman\Debug\TravelingSalesman.pdb (Full PDB)

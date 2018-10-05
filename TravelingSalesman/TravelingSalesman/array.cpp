@@ -4,6 +4,23 @@
 #include <random>
 #include <math.h>
 
+Array::Array() {
+
+	cityList = new sf::Vector2i*[POPULATION_SIZE];
+	for (int i = 0; i < POPULATION_SIZE; i++)
+	{
+		cityList[i] = new sf::Vector2i[CITY_COUNT];
+	}
+}
+
+Array::~Array() {
+	/*
+	for (int i = 0; i < POPULATION_SIZE; i++) {
+		delete[] cityList[i];
+	}
+	delete[] cityList;*/
+}
+
 void Array::generatePopulation() {
 
 	srand(time(NULL));
@@ -78,8 +95,15 @@ void Array::getBestPathIndex() {
 	for (int i = 0; i < POPULATION_SIZE; i++) {
 		if (pathSum[i] < bestPathMag) {
 			bestPathIndex = i;
-			bestPathMag = pathSum[i];
+			v.bestPath = bestPathMag = pathSum[i];
 		}
+	}
+}
+
+void Array::checkConsecutiveEntries() {
+
+	if (v.bestPath == bestPathMag) {
+		v.count++;
 	}
 }
 

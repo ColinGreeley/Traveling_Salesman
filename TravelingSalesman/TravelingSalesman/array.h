@@ -1,16 +1,27 @@
 #pragma once
 #include <SFML\Audio.hpp>
 
-#define CITY_COUNT 40
-#define POPULATION_SIZE 1000
+#define CITY_COUNT 50
+#define POPULATION_SIZE 100
+
+typedef struct {
+
+	int count = 0;
+	float bestPath = 0;
+
+} ConsecutiveValue;
 
 class Array {
 
 public:
 	
-	sf::Vector2i cityList[POPULATION_SIZE][CITY_COUNT];
+	sf::Vector2i** cityList;
 	float bestPathMag = 10000000;
 	int bestPathIndex = 0;
+	ConsecutiveValue v;
+	
+	Array();
+	~Array();
 
 	void generatePopulation();
 	void printCityLocations();
@@ -18,6 +29,7 @@ public:
 
 	void calculatePathMagnitudes(float pathSum[]);
 	void getBestPathIndex();
+	void checkConsecutiveEntries();
 
 	// genetic algorithm
 	void selection(float selectionRate);
